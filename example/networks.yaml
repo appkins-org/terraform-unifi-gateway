@@ -1,0 +1,11 @@
+default:
+  vlan_id: "0"
+  subnet: "10.0.0.0/16"
+
+internal:
+  vlan_id: 10
+  subnet: "10.1.0.0/16"
+  clients:
+    - name: maas
+      mac: bc:ee:7b:e0:a4:83
+      ip: 10.1.40.1
