@@ -5,6 +5,7 @@ module "network" {
 
   name = title(each.key)
 
+  site            = each.value.site
   purpose         = each.value.purpose
   subnet          = each.value.subnet
   domain_name     = each.value.domain_name
@@ -13,7 +14,11 @@ module "network" {
   vlan_id         = each.value.vlan_id
   dhcp            = each.value.dhcp
 
-  clients = each.value.clients
+  client_groups = each.value.client_groups
+  clients       = each.value.clients
+
+  wan  = each.value.wan
+  ipv6 = each.value.ipv6
 
 }
 

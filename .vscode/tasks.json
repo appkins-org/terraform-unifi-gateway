@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "presentation": {"panel": "dedicated"},
+  "tasks":
+    [
+      {
+        "label": "terraform:example:init",
+        "command": "/usr/bin/terraform",
+        "args": ["init"],
+        "options": {"cwd": "${workspaceFolder}/example"},
+        "problemMatcher": [],
+        "group": "build",
+      },
+      {
+        "label": "terraform:example:plan",
+        "command": "/usr/bin/terraform",
+        "args": ["plan", "-out", "${workspaceFolder}/example/example.tfplan"],
+        "options": {"cwd": "${workspaceFolder}/example"},
+        "dependsOn": ["terraform:example:init"],
+        "problemMatcher": [],
+        "group": "build",
+      },
+      {
+        "label": "terraform:example:apply",
+        "command": "/usr/bin/terraform",
+        "args": ["apply", "-auto-approve", "${workspaceFolder}/example/example.tfplan"],
+        "options": {"cwd": "${workspaceFolder}/example"},
+        "dependsOn": ["terraform:example:plan"],
+        "problemMatcher": [],
+        "group": "build",
+      },
+    ],
+}
