@@ -56,8 +56,10 @@ variable "networks" {
       ra_valid_lifetime     = optional(number, 86400)  # Total lifetime in which the address can be used. Must be equal to or greater than ipv6_ra_preferred_lifetime. Defaults to 86400.
       static_subnet         = optional(string)         # Specifies the static IPv6 subnet when ipv6_interface_type is 'static'.
     }))
-  }), {})
+  }))
   description = "Network configurations."
+  default     = {}
+  nullable    = false
 }
 
 variable "dyndns" {
