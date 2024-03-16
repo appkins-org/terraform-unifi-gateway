@@ -1,14 +1,18 @@
 resource "unifi_network" "network" {
-  name            = title(var.name)
-  purpose         = var.purpose
-  subnet          = var.subnet
-  domain_name     = var.domain_name
-  dhcp_enabled    = var.dhcp.enabled
-  dhcp_start      = coalesce(var.dhcp.start, cidrhost(var.subnet, 6))
-  dhcp_stop       = coalesce(var.dhcp.stop, cidrhost(var.subnet, -2))
-  dhcp_v6_enabled = var.dhcp.v6_enabled
-  site            = var.site
-  multicast_dns   = var.multicast_dns
+  name                = title(var.name)
+  purpose             = var.purpose
+  subnet              = var.subnet
+  domain_name         = var.domain_name
+  dhcp_enabled        = var.dhcp.enabled
+  dhcp_start          = coalesce(var.dhcp.start, cidrhost(var.subnet, 6))
+  dhcp_stop           = coalesce(var.dhcp.stop, cidrhost(var.subnet, -2))
+  dhcp_v6_enabled     = var.dhcp.v6_enabled
+  dhcpd_boot_enabled  = var.dhcp.boot.enabled
+  dhcpd_boot_filename = var.dhcp.boot.file_name
+  dhcpd_boot_server   = var.dhcp.boot.server
+
+  site          = var.site
+  multicast_dns = var.multicast_dns
 
   vlan_id = var.vlan_id
 
