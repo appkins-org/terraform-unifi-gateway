@@ -1,8 +1,14 @@
+variable "site" {
+  type        = string
+  description = "The site name."
+  default     = "default"
+  nullable    = false
+}
+
 variable "networks" {
   type = map(object({
     purpose         = optional(string, "corporate")
     subnet          = string
-    site            = optional(string, "default")
     domain_name     = optional(string)
     multicast_dns   = optional(bool, true)
     internet_access = optional(bool, true)
@@ -18,11 +24,6 @@ variable "networks" {
         server    = optional(string)
       }))
     }))
-    client_groups = optional(map(object({
-      site              = optional(string, "default")
-      qos_rate_max_down = optional(number, -1)
-      qos_rate_max_up   = optional(number, -1)
-    })), {})
     clients = optional(list(object({
       name = string
       mac  = string
@@ -62,6 +63,16 @@ variable "networks" {
   nullable    = false
 }
 
+variable "client_groups" {
+  type = map(object({
+    qos_rate_max_down = optional(number, -1)
+    qos_rate_max_up   = optional(number, -1)
+  }))
+  description = "Restrictions to apply to a group of clients."
+  default     = {}
+  nullable    = false
+}
+
 variable "dyndns" {
   type = object({
     enabled  = optional(bool, false)
@@ -72,6 +83,45 @@ variable "dyndns" {
     server   = optional(string)
   })
   description = "Dynamic DNS configuration"
+  default     = {}
+  nullable    = false
+}
+
+variable "settings" {
+  type = object({
+    management = optional(object({
+      auto_upgrade = optional(bool, true)
+      ssh = optional(object({
+        enabled = optional(bool, true)
+        keys = optional(list(object({
+          name    = string
+          type    = optional(string, "ssh-rsa")
+          key     = optional(string)
+          comment = optional(string)
+        })), [])
+      }), {})
+    }))
+    radius = optional(object({
+      enabled = optional(bool, false)
+      accounting = optional(object({
+        enabled = optional(bool, false)
+        port    = optional(number, 1813)
+      }), {})
+      server                  = optional(string)
+      auth_port               = optional(number, 1812)
+      interim_update_interval = optional(number, 3600)
+      secret                  = optional(string, "")
+      tunneled_reply          = optional(bool, true)
+    }))
+    usg = optional(object({
+      dhcp_relay_servers         = optional(list(string), [])
+      firewall_guest_default_log = optional(bool, false)
+      firewall_lan_default_log   = optional(bool, false)
+      firewall_wan_default_log   = optional(bool, false)
+      multicast_dns_enabled      = optional(bool, true)
+    }))
+  })
+  description = "Unifi console settings"
   default     = {}
   nullable    = false
 }

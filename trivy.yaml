@@ -1,0 +1,12 @@
+ignorefile: ./.trivyignore.yaml
+
+scan:
+  skip-dirs:
+    - ./examples
+
+misconfiguration:
+  scanners:
+    - terraform
+
+  terraform:
+    exclude-downloaded-modules: false
