@@ -5,6 +5,73 @@ variable "site" {
   nullable    = false
 }
 
+variable "port_profiles" {
+  type = list(object({
+    name                           = optional(string)       # The name of the port profile.
+    autoneg                        = optional(bool)         # Enable link auto negotiation for the port profile. When set to true this overrides speed. Defaults to true.
+    dot1x_ctrl                     = optional(string)       # The type of 802.1X control to use. Can be auto, force_authorized, force_unauthorized, mac_based or multi_host. Defaults to force_authorized.
+    dot1x_idle_timeout             = optional(number)       # The timeout, in seconds, to use when using the MAC Based 802.1X control. Can be between 0 and 65535 Defaults to 300.
+    egress_rate_limit_kbps         = optional(number)       # The egress rate limit, in kpbs, for the port profile. Can be between 64 and 9999999.
+    egress_rate_limit_kbps_enabled = optional(bool)         # Enable egress rate limiting for the port profile. Defaults to false.
+    forward                        = optional(string)       # The type forwarding to use for the port profile. Can be all, native, customize or disabled. Defaults to native.
+    full_duplex                    = optional(bool)         # Enable full duplex for the port profile. Defaults to false.
+    isolation                      = optional(bool)         # Enable port isolation for the port profile. Defaults to false.
+    lldpmed_enabled                = optional(bool)         # Enable LLDP-MED for the port profile. Defaults to true.
+    lldpmed_notify_enabled         = optional(bool)         # Enable LLDP-MED topology change notifications for the port profile.
+    native_networkconf_id          = optional(string)       # The ID of network to use as the main network on the port profile.
+    op_mode                        = optional(string)       # The operation mode for the port profile. Can only be switch Defaults to switch.
+    poe_mode                       = optional(string)       # The POE mode for the port profile. Can be one of auto, passv24, passthrough or off.
+    port_security_enabled          = optional(bool)         # Enable port security for the port profile. Defaults to false.
+    port_security_mac_address      = optional(list(string)) # The MAC addresses associated with the port security for the port profile.
+    priority_queue1_level          = optional(number)       # The priority queue 1 level for the port profile. Can be between 0 and 100.
+    priority_queue2_level          = optional(number)       # The priority queue 2 level for the port profile. Can be between 0 and 100.
+    priority_queue3_level          = optional(number)       # The priority queue 3 level for the port profile. Can be between 0 and 100.
+    priority_queue4_level          = optional(number)       # The priority queue 4 level for the port profile. Can be between 0 and 100.
+    speed                          = optional(number)       # The link speed to set for the port profile. Can be one of 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000 or 100000
+    stormctrl_bcast_enabled        = optional(bool)         # Enable broadcast Storm Control for the port profile. Defaults to false.
+    stormctrl_bcast_level          = optional(number)       # The broadcast Storm Control level for the port profile. Can be between 0 and 100.
+    stormctrl_bcast_rate           = optional(number)       # The broadcast Storm Control rate for the port profile. Can be between 0 and 14880000.
+    stormctrl_mcast_enabled        = optional(bool)         # Enable multicast Storm Control for the port profile. Defaults to false.
+    stormctrl_mcast_level          = optional(number)       # The multicast Storm Control level for the port profile. Can be between 0 and 100.
+    stormctrl_mcast_rate           = optional(number)       # The multicast Storm Control rate for the port profile. Can be between 0 and 14880000.
+    stormctrl_type                 = optional(string)       # The type of Storm Control to use for the port profile. Can be one of level or rate.
+    stormctrl_ucast_enabled        = optional(bool)         # Enable unknown unicast Storm Control for the port profile. Defaults to false.
+    stormctrl_ucast_level          = optional(number)       # The unknown unicast Storm Control level for the port profile. Can be between 0 and 100.
+    stormctrl_ucast_rate           = optional(number)       # The unknown unicast Storm Control rate for the port profile. Can be between 0 and 14880000.
+    stp_port_mode                  = optional(bool)         # Enable spanning tree protocol on the port profile. Defaults to true.
+    tagged_networkconf_ids         = optional(list(string)) # The IDs of networks to tag traffic with for the port profile.
+    voice_networkconf_id           = optional(string)       # The ID of network to use as the voice network on the port profile.
+  }))
+  description = "Port profiles to add to the network."
+  default     = []
+  nullable    = false
+
+  validation {
+    condition     = alltrue([for profile in var.port_profiles : profile.name != "Disabled"])
+    error_message = "Disabled is a reserved profile name."
+  }
+}
+
+variable "devices" {
+  type = list(object({
+    name              = string
+    mac               = optional(string)
+    forget_on_destroy = optional(bool, true)
+    allow_adoption    = optional(bool, true)
+    port_overrides = optional(list(object({
+      number              = optional(number)
+      name                = optional(string)
+      aggregate_num_ports = optional(number)
+      op_mode             = optional(string, "switch")
+      port_profile        = optional(string)
+      port_profile_id     = optional(string)
+    })), [])
+  }))
+  description = "Devices to add to the network."
+  default     = []
+  nullable    = false
+}
+
 variable "networks" {
   type = map(object({
     purpose         = optional(string, "corporate")

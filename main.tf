@@ -1,3 +1,69 @@
+resource "unifi_port_profile" "port_profiles" {
+  for_each = { for profile in var.port_profiles : profile.name => profile }
+
+  name                           = each.value.name
+  autoneg                        = each.value.autoneg
+  dot1x_ctrl                     = each.value.dot1x_ctrl
+  dot1x_idle_timeout             = each.value.dot1x_idle_timeout
+  egress_rate_limit_kbps         = each.value.egress_rate_limit_kbps
+  egress_rate_limit_kbps_enabled = each.value.egress_rate_limit_kbps_enabled
+  forward                        = each.value.forward
+  full_duplex                    = each.value.full_duplex
+  isolation                      = each.value.isolation
+  lldpmed_enabled                = each.value.lldpmed_enabled
+  lldpmed_notify_enabled         = each.value.lldpmed_notify_enabled
+  native_networkconf_id          = each.value.native_networkconf_id
+  op_mode                        = each.value.op_mode
+  poe_mode                       = each.value.poe_mode
+  port_security_enabled          = each.value.port_security_enabled
+  port_security_mac_address      = each.value.port_security_mac_address
+  priority_queue1_level          = each.value.priority_queue1_level
+  priority_queue2_level          = each.value.priority_queue2_level
+  priority_queue3_level          = each.value.priority_queue3_level
+  priority_queue4_level          = each.value.priority_queue4_level
+  speed                          = each.value.speed
+  stormctrl_bcast_enabled        = each.value.stormctrl_bcast_enabled
+  stormctrl_bcast_level          = each.value.stormctrl_bcast_level
+  stormctrl_bcast_rate           = each.value.stormctrl_bcast_rate
+  stormctrl_mcast_enabled        = each.value.stormctrl_mcast_enabled
+  stormctrl_mcast_level          = each.value.stormctrl_mcast_level
+  stormctrl_mcast_rate           = each.value.stormctrl_mcast_rate
+  stormctrl_type                 = each.value.stormctrl_type
+  stormctrl_ucast_enabled        = each.value.stormctrl_ucast_enabled
+  stormctrl_ucast_level          = each.value.stormctrl_ucast_level
+  stormctrl_ucast_rate           = each.value.stormctrl_ucast_rate
+  stp_port_mode                  = each.value.stp_port_mode
+  tagged_networkconf_ids         = each.value.tagged_networkconf_ids
+  voice_networkconf_id           = each.value.voice_networkconf_id
+
+  site = var.site
+}
+
+resource "unifi_device" "devices" {
+  for_each = { for device in var.devices : device.name => device }
+
+  name = each.value.name
+  mac  = each.value.mac
+
+  allow_adoption    = each.value.allow_adoption
+  forget_on_destroy = each.value.forget_on_destroy
+
+  dynamic "port_override" {
+    for_each = var.devices[0].port_overrides
+
+    content {
+      number = coalesce(port_override.value.number, port_override.key)
+      name   = coalesce(port_override.value.name, "Port ${port_override.key}")
+      port_profile_id = coalesce(
+        port_override.value.port_profile_id,
+        try(contains(keys(local.port_profiles_lookup), port_override.port_profile) ? data.unifi_port_profile.port_profiles[port_override.port_profile].id : unifi_port_profile.port_profiles[port_override.port_profile].id, "")
+      )
+    }
+  }
+
+  site = var.site
+}
+
 resource "unifi_network" "networks" {
   for_each = var.networks
 
@@ -12,9 +78,7 @@ resource "unifi_network" "networks" {
   dhcpd_boot_enabled  = each.value.dhcp.boot.enabled
   dhcpd_boot_filename = each.value.dhcp.boot.file_name
   dhcpd_boot_server   = each.value.dhcp.boot.server
-
-  site          = var.site
-  multicast_dns = each.value.multicast_dns
+  multicast_dns       = each.value.multicast_dns
 
   vlan_id = each.value.vlan_id
 
@@ -46,6 +110,8 @@ resource "unifi_network" "networks" {
   ipv6_ra_valid_lifetime     = each.value.ipv6.ra_valid_lifetime
   ipv6_static_subnet         = each.value.ipv6.static_subnet
 
+  site = var.site
+
   lifecycle {
     ignore_changes = [ipv6_ra_valid_lifetime, ipv6_ra_enable, ipv6_pd_start, ipv6_pd_stop, ipv6_ra_preferred_lifetime, ipv6_ra_priority, dhcp_v6_start, dhcp_v6_stop]
   }
@@ -71,6 +137,8 @@ resource "unifi_user_group" "default" {
 
   qos_rate_max_down = each.value.qos_rate_max_down # 10kbps
   qos_rate_max_up   = each.value.qos_rate_max_up   # 10kbps
+
+  site = var.site
 }
 
 resource "unifi_dynamic_dns" "dns" {
@@ -83,6 +151,8 @@ resource "unifi_dynamic_dns" "dns" {
   server   = var.dyndns.server
   login    = var.dyndns.username
   password = var.dyndns.password
+
+  site = var.site
 }
 
 resource "unifi_setting_mgmt" "default" {
@@ -101,6 +171,8 @@ resource "unifi_setting_mgmt" "default" {
       comment = ssh_key.value.comment
     }
   }
+
+  site = var.site
 }
 
 resource "unifi_setting_radius" "default" {
@@ -115,6 +187,8 @@ resource "unifi_setting_radius" "default" {
   interim_update_interval = var.settings.radius.interim_update_interval
   secret                  = var.settings.radius.secret
   tunneled_reply          = var.settings.radius.tunneled_reply
+
+  site = var.site
 }
 
 resource "unifi_setting_usg" "default" {
@@ -125,4 +199,6 @@ resource "unifi_setting_usg" "default" {
   firewall_lan_default_log   = var.settings.usg.firewall_lan_default_log
   firewall_wan_default_log   = var.settings.usg.firewall_wan_default_log
   multicast_dns_enabled      = var.settings.usg.multicast_dns_enabled
+
+  site = var.site
 }
