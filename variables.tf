@@ -22,8 +22,8 @@ variable "networks" {
         enabled   = optional(bool, false)
         file_name = optional(string, "pxelinux.0")
         server    = optional(string)
-      }))
-    }))
+      }), {})
+    }), {})
     clients = optional(list(object({
       name = string
       mac  = string
@@ -56,7 +56,7 @@ variable "networks" {
       ra_priority           = optional(string)         # IPv6 router advertisement priority. Must be one of either high, medium, or low
       ra_valid_lifetime     = optional(number, 86400)  # Total lifetime in which the address can be used. Must be equal to or greater than ipv6_ra_preferred_lifetime. Defaults to 86400.
       static_subnet         = optional(string)         # Specifies the static IPv6 subnet when ipv6_interface_type is 'static'.
-    }))
+    }), {})
   }))
   description = "Network configurations."
   default     = {}

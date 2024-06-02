@@ -1,7 +1,7 @@
 resource "unifi_network" "networks" {
   for_each = var.networks
 
-  name                = title(each.value.name)
+  name                = title(each.key)
   purpose             = each.value.purpose
   subnet              = each.value.subnet
   domain_name         = each.value.domain_name

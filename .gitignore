@@ -1,4 +1,3 @@
-.DS_Store
 Thumbs.db
 .private/
 .venv/
@@ -12,8 +11,41 @@ Thumbs.db
 kubeconfig*
 config.xml
 .terraform
-*.tfstate
-*.tfstate.*
 node_modules/
 .terraform.lock.hcl
 .data
+
+# Ignore terraform directories
+.terraform/
+
+# Ignore lock files
+.terraform.lock.hcl
+
+# Ignore tfstate files
+*.tfstate
+*.tfstate.*
+
+# Ignore crash log files
+crash.log
+crash.*.log
+
+# Ignore tfvars
+*.tfvars
+*.tfvars.json
+
+# Ignore override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore DS Store files
+.DS_Store
+
+# Ignore reports
+trivy-report.json
+

@@ -23,7 +23,9 @@ Terraform module for provisioning a Unifi Gateway.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_network_ids"></a> [network\_ids](#output\_network\_ids) | Map of network keys to network IDs |
 
 # Example
 
