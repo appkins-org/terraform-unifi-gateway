@@ -148,8 +148,8 @@ variable "port_forwards" {
     fwd_ip                 = optional(string)            # The IPv4 address to forward traffic to.
     fwd_port               = optional(string)            # The port to forward traffic to.
     log                    = optional(bool, false)       # Specifies whether to log forwarded traffic or not. Defaults to false.
-    port_forward_interface = optional(string) # The port forwarding interface. Can be wan, wan2, or both.
-    protocol               = optional(string, "tcp_udp")            # The protocol for the port forwarding rule. Can be tcp, udp, or tcp_udp. Defaults to tcp_udp.
+    port_forward_interface = optional(string)            # The port forwarding interface. Can be wan, wan2, or both.
+    protocol               = optional(string, "tcp_udp") # The protocol for the port forwarding rule. Can be tcp, udp, or tcp_udp. Defaults to tcp_udp.
     src_ip                 = optional(string, "any")     # The source IPv4 address = optional(or CIDR) # # of the port forwarding rule. For all traffic, specify any. Defaults to any.
   }))
   description = "Port forwarding rules."
