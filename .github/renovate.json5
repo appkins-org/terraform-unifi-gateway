@@ -11,7 +11,6 @@
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "onboarding": false,
   "requireConfig": "ignored",
   "terraform": {
     "enabled": true,
