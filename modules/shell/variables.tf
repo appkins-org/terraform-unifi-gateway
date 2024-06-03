@@ -1,12 +1,12 @@
-variable "templates" {
-  type = list(object({
-    source      = string
-    destination = string
-    vars        = optional(map(string), {})
-  }))
-  default = []
-  description = "The list of templates to render. Each item in the list is a map with the following"
-}
+# variable "templates" {
+#   type = list(object({
+#     source      = string
+#     destination = string
+#     vars        = optional(map(string), {})
+#   }))
+#   default = []
+#   description = "The list of templates to render. Each item in the list is a map with the following"
+# }
 
 variable "environment" {
   type = map(string)
