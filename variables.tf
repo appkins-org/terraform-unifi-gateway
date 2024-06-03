@@ -140,6 +140,28 @@ variable "client_groups" {
   nullable    = false
 }
 
+variable "port_forwards" {
+  type = list(object({
+    name                   = optional(string)            # The name of the port forwarding rule.
+    dst_port               = optional(string)            # The destination port for the forwarding.
+    enabled                = optional(bool, true)        # Deprecated - Specifies whether the port forwarding rule is enabled or not. Defaults to true. This will attribute will be removed in a future release. Instead of disabling a port forwarding rule you can remove it from your configuration.
+    fwd_ip                 = optional(string)            # The IPv4 address to forward traffic to.
+    fwd_port               = optional(string)            # The port to forward traffic to.
+    log                    = optional(bool, false)       # Specifies whether to log forwarded traffic or not. Defaults to false.
+    port_forward_interface = optional(string, "tcp_udp") # The port forwarding interface. Can be wan, wan2, or both.
+    protocol               = optional(string)            # The protocol for the port forwarding rule. Can be tcp, udp, or tcp_udp. Defaults to tcp_udp.
+    src_ip                 = optional(string, "any")     # The source IPv4 address = optional(or CIDR) # # of the port forwarding rule. For all traffic, specify any. Defaults to any.
+  }))
+  description = "Port forwarding rules."
+  default     = []
+  nullable    = false
+
+  validation {
+    condition     = alltrue([for rule in var.port_forwarding : contains(["tcp", "udp", "tcp_udp"], rule.protocol)])
+    error_message = "Port forwarding protocol must be one of \"tcp\", \"udp\" or \"tcp_udp\"."
+  }
+}
+
 variable "dyndns" {
   type = object({
     enabled  = optional(bool, false)

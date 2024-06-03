@@ -141,6 +141,19 @@ resource "unifi_user_group" "default" {
   site = var.site
 }
 
+resource "unifi_port_forward" "default" {
+  for_each = { for port_forward in var.port_forwards : port_forward.name => port_forward }
+
+  name                   = each.value.name
+  dst_port               = each.value.dst_port
+  fwd_ip                 = each.value.fwd_ip
+  fwd_port               = each.value.fwd_port
+  log                    = each.value.log
+  port_forward_interface = each.value.port_forward_interface
+  protocol               = each.value.protocol
+  src_ip                 = each.value.src_ip
+}
+
 resource "unifi_dynamic_dns" "dns" {
   count = var.dyndns.enabled ? 1 : 0
 
