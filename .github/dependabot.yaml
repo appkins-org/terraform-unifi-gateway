@@ -2,23 +2,13 @@ version: 2
 
 updates:
   - package-ecosystem: github-actions
-    registries: "*"
     directory: /
-    groups:
-      github-actions:
-        patterns:
-          - "*"
-        update-types:
-          - major
-          - minor
-          - patch
     commit-message:
       prefix: chore
     schedule:
-      interval: weekly
+      interval: daily
     labels:
       - kind/chore
-      - dependabot
     # reviewers:
     #   - appkins-org/admin
 
@@ -29,16 +19,11 @@ updates:
       terraform:
         patterns:
           - "*"
-        update-types:
-          - major
-          - minor
-          - patch
     commit-message:
       prefix: chore
     schedule:
-      interval: weekly
+      interval: daily
     labels:
       - kind/chore
-      - dependabot
     # reviewers:
     #   - appkins-org/admin
