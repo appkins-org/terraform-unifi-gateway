@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":automergeBranch",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":skipStatusChecks",
+    ":timezone(America/Chicago)"
+  ],
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "onboarding": false,
+  "requireConfig": "ignored",
+  "terraform": {
+    "enabled": true,
+    "commitMessageTopic": "Terraform {{depName}}",
+    "fileMatch": [
+      "\\.tf$"
+    ],
+    "pinDigests": false
+  },
+  "github-actions": {
+    "enabled": false
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "automerge": true,
+    "labels": ["security"]
+  }
+}
