@@ -9,10 +9,10 @@
 # }
 
 variable "environment" {
-  type = map(string)
+  type        = map(string)
   description = "The environment variables to set for the shell script"
-  default = {}
-  nullable = false
+  default     = {}
+  nullable    = false
 }
 
 variable "host" {
@@ -35,25 +35,25 @@ variable "username" {
 }
 
 variable "create" {
-  type = string
+  type        = string
   description = "The content of the create script"
-  default = null
+  default     = null
 }
 
 variable "read" {
-  type = string
+  type        = string
   description = "The content of the read script"
-  default = null
+  default     = null
 }
 
 variable "update" {
-  type = string
+  type        = string
   description = "The content of the update script"
-  default = null
+  default     = null
 }
 
 variable "delete" {
-  type = string
+  type        = string
   description = "The content of the delete script"
-  default = null
+  default     = null
 }

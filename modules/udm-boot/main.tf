@@ -1,4 +1,4 @@
-module "package"  {
+module "package" {
   source = "../package"
 
   url = local.package_url

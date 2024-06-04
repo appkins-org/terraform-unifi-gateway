@@ -1,4 +1,4 @@
-module "shell"  {
+module "shell" {
   source = "../shell"
 
   environment = {

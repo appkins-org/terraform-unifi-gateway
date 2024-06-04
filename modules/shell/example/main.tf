@@ -1,8 +1,8 @@
 module "shell_script" {
   source = "../"
 
-  host = "ui.appkins.io"
-  port = 2222
+  host     = "ui.appkins.io"
+  port     = 2222
   username = "root"
 
   environment = {
