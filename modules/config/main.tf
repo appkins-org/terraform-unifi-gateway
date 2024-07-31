@@ -22,6 +22,10 @@ resource "ssh_resource" "default" {
     }
   }
 
+  commands = var.commands
+
+  commands_after_file_changes = var.commands_after_file_changes
+
   // commands = [
   //   "/tmp/hello.sh"
   // ]

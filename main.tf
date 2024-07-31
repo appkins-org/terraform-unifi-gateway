@@ -33,7 +33,7 @@ resource "unifi_port_profile" "port_profiles" {
   stormctrl_ucast_level          = each.value.stormctrl_ucast_level
   stormctrl_ucast_rate           = each.value.stormctrl_ucast_rate
   stp_port_mode                  = each.value.stp_port_mode
-  tagged_networkconf_ids         = each.value.tagged_networkconf_ids
+  tagged_vlan_mgmt               = each.value.tagged_vlan_mgmt
   voice_networkconf_id           = each.value.voice_networkconf_id
 
   site = var.site

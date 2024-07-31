@@ -39,7 +39,7 @@ variable "port_profiles" {
     stormctrl_ucast_level          = optional(number)       # The unknown unicast Storm Control level for the port profile. Can be between 0 and 100.
     stormctrl_ucast_rate           = optional(number)       # The unknown unicast Storm Control rate for the port profile. Can be between 0 and 14880000.
     stp_port_mode                  = optional(bool)         # Enable spanning tree protocol on the port profile. Defaults to true.
-    tagged_networkconf_ids         = optional(list(string)) # The IDs of networks to tag traffic with for the port profile.
+    tagged_vlan_mgmt               = optional(string)       # The IDs of networks to tag traffic with for the port profile.
     voice_networkconf_id           = optional(string)       # The ID of network to use as the voice network on the port profile.
   }))
   description = "Port profiles to add to the network."
@@ -215,6 +215,18 @@ variable "settings" {
   nullable    = false
 }
 
+variable "wpa_supplicant" {
+  description = "WPA supplicant configuration (Optional)."
+  type = object({
+    mac_address = string
+    ca_cert     = string
+    client_cert = string
+    private_key = string
+  })
+  default  = null
+  nullable = true
+}
+
 variable "ssh" {
   type = object({
     host        = string
@@ -222,4 +234,6 @@ variable "ssh" {
     username    = string
     private_key = string
   })
+  nullable = true
+  default = null
 }

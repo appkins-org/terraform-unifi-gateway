@@ -5,6 +5,20 @@ variable "create_parents" {
   nullable    = false
 }
 
+variable "commands" {
+  description = "Commands to run on the server."
+  type        = list(string)
+  default     = []
+  nullable    = false
+}
+
+variable "commands_after_file_changes" {
+  description = "Commands to run when the files change."
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
 variable "files" {
   description = "Configuration files to upload to the server."
   type = list(object({
