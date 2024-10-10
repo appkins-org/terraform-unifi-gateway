@@ -10,8 +10,6 @@ terraform {
       version = ">= 2.7.0"
     }
 
-    shell = {
-      source = "icj217/shell"
-    }
+    shell = { source = "icj217/shell" }
   }
 }

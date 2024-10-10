@@ -1,7 +1,5 @@
 terraform {
   required_providers {
-    ssh = {
-      source = "loafoe/ssh"
-    }
+    ssh = { source = "loafoe/ssh" }
   }
 }

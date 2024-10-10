@@ -235,5 +235,5 @@ variable "ssh" {
     private_key = string
   })
   nullable = true
-  default = null
+  default  = null
 }
