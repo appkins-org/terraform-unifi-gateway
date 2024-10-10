@@ -8,13 +8,6 @@ variable "package_version" {
   description = "The version of the package to install."
 }
 
-variable "url" {
-  type        = string
-  description = "The URL of the deb package to install."
-  default     = ""
-  nullable    = false
-}
-
 variable "ssh" {
   type = object({
     host        = string
@@ -23,5 +16,12 @@ variable "ssh" {
     private_key = string
   })
   description = "The SSH connection details."
+  nullable    = false
+}
+
+variable "url" {
+  type        = string
+  description = "The URL of the deb package to install."
+  default     = ""
   nullable    = false
 }

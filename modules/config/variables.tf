@@ -1,10 +1,3 @@
-variable "create_parents" {
-  description = "Create parent directories if they do not exist."
-  type        = bool
-  default     = true
-  nullable    = false
-}
-
 variable "commands" {
   description = "Commands to run on the server."
   type        = list(string)
@@ -16,6 +9,13 @@ variable "commands_after_file_changes" {
   description = "Commands to run when the files change."
   type        = bool
   default     = false
+  nullable    = false
+}
+
+variable "create_parents" {
+  description = "Create parent directories if they do not exist."
+  type        = bool
+  default     = true
   nullable    = false
 }
 

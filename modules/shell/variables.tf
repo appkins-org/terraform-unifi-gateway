@@ -1,4 +1,34 @@
-# variable "templates" {
+variable "create" {
+  type        = string
+  description = "The content of the create script"
+  default     = null
+}
+
+variable "delete" {
+  type        = string
+  description = "The content of the delete script"
+  default     = null
+}
+
+variable "host" {
+  type        = string
+  description = "SSH host"
+}
+
+variable "port" {
+  type        = number
+  description = "SSH port"
+  default     = 22
+  nullable    = false
+}
+
+variable "read" {
+  type        = string
+  description = "The content of the read script"
+  default     = null
+}
+
+variable "templates" {
 #   type = list(object({
 #     source      = string
 #     destination = string
@@ -15,16 +45,10 @@ variable "environment" {
   nullable    = false
 }
 
-variable "host" {
+variable "update" {
   type        = string
-  description = "SSH host"
-}
-
-variable "port" {
-  type        = number
-  description = "SSH port"
-  default     = 22
-  nullable    = false
+  description = "The content of the update script"
+  default     = null
 }
 
 variable "username" {
@@ -32,28 +56,4 @@ variable "username" {
   description = "SSH username"
   default     = "root"
   nullable    = false
-}
-
-variable "create" {
-  type        = string
-  description = "The content of the create script"
-  default     = null
-}
-
-variable "read" {
-  type        = string
-  description = "The content of the read script"
-  default     = null
-}
-
-variable "update" {
-  type        = string
-  description = "The content of the update script"
-  default     = null
-}
-
-variable "delete" {
-  type        = string
-  description = "The content of the delete script"
-  default     = null
 }
