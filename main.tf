@@ -110,10 +110,31 @@ resource "unifi_network" "networks" {
   ipv6_ra_valid_lifetime     = each.value.ipv6.ra_valid_lifetime
   ipv6_static_subnet         = each.value.ipv6.static_subnet
 
+  wireguard_client_mode                  = each.value.wireguard.client_mode == null ? "manual" : each.value.wireguard.client_mode
+  wireguard_client_peer_ip               = each.value.wireguard.client_peer_ip
+  wireguard_client_peer_port             = each.value.wireguard.client_peer_port
+  wireguard_client_peer_public_key       = each.value.wireguard.client_peer_public_key
+  wireguard_client_preshared_key_enabled = each.value.wireguard.client_preshared_key != null && each.value.wireguard.client_preshared_key != ""
+  wireguard_client_preshared_key         = each.value.wireguard.client_preshared_key
+  wireguard_public_key                   = each.value.wireguard.public_key
+  wireguard_private_key                  = each.value.wireguard.private_key
+
   site = var.site
 
   lifecycle {
-    ignore_changes = [ipv6_ra_valid_lifetime, ipv6_ra_enable, ipv6_pd_start, ipv6_pd_stop, ipv6_ra_preferred_lifetime, ipv6_ra_priority, dhcp_v6_start, dhcp_v6_stop]
+    ignore_changes = [
+      dhcp_v6_start,
+      dhcp_v6_stop,
+      intra_network_access_enabled,
+      ipv6_interface_type,
+      ipv6_pd_start,
+      ipv6_pd_stop,
+      ipv6_ra_enable,
+      ipv6_ra_preferred_lifetime,
+      ipv6_ra_priority,
+      ipv6_ra_valid_lifetime,
+      network_group,
+    ]
   }
 }
 

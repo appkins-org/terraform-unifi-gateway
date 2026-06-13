@@ -94,6 +94,15 @@ variable "networks" {
       ra_valid_lifetime     = optional(number, 86400)  # Total lifetime in which the address can be used. Must be equal to or greater than ipv6_ra_preferred_lifetime. Defaults to 86400.
       static_subnet         = optional(string)         # Specifies the static IPv6 subnet when ipv6_interface_type is 'static'.
     }), {})
+    wireguard = optional(object({
+      client_mode            = optional(string) # Specifies the WireGuard client mode. Must be one of either manual or auto.
+      client_peer_ip         = optional(string) # The IPv4 address of the WireGuard peer.
+      client_peer_port       = optional(number) # The port of the WireGuard peer.
+      client_peer_public_key = optional(string) # The public key of the WireGuard peer.
+      client_preshared_key   = optional(string) # The pre-shared key for the WireGuard connection.
+      public_key             = optional(string) # The public key of the WireGuard server.
+      private_key            = optional(string) # The private key of the WireGuard server.
+    }), {})
   }))
   description = "Network configurations."
   default     = {}
